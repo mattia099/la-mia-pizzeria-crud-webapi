@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 using la_mia_pizzeria_razor_layout;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PizzeriaContextConnection") ?? throw new InvalidOperationException("Connection string 'PizzeriaContextConnection' not found.");
-=======
-using la_mia_pizzeria_razor_layout.Areas.Identity.Data;
-var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("BlogContextConnection") ?? throw new InvalidOperationException("Connection string 'BlogContextConnection' not found.");
->>>>>>> a83371cde6a23a39831c4f1022f911fae6f2e0b1
+
 
 builder.Services.AddDbContext<PizzaContext>(options =>
     options.UseSqlServer(connectionString));
@@ -35,12 +31,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> a83371cde6a23a39831c4f1022f911fae6f2e0b1
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -6,8 +6,7 @@ namespace la_mia_pizzeria_razor_layout.Areas.Identity.Data;
 
 public class PizzaContext : IdentityDbContext<IdentityUser>
 {
-    public PizzaContext(DbContextOptions<PizzaContext> options)
-        : base(options)
+    public PizzaContext(DbContextOptions<PizzaContext> options): base(options)
     {
     }
 
