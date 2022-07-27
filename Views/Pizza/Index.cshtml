@@ -1,9 +1,8 @@
-﻿@model List<Pizza>
-
+﻿
 @{
     ViewData["Title"] = "Home Page";
 }
-@{
+@*@{
 
     using(PizzaContext db = new PizzaContext())
     {
@@ -20,7 +19,7 @@
         //db.Add(funghiSalsiccia);
         //db.SaveChanges();
     }
-}
+}*@
 <h2>Aggiungi una nuova pizza:</h2>
 <a class="btn btn-primary" asp-controller="Pizza" asp-action="CreateForm">Aggiungi</a>
 @*<table class="table">
@@ -74,41 +73,43 @@
 
   @*  </tbody>
 </table>*@
-<input id="searchBar" type="text" placeholder="Cerca la tua pizza" onkeyup="search()" />
+
+<input id="search" type="text" placeholder="Cerca la tua pizza"/>
 <section class="wrapper">
         <div class="container py-3">
             <div class="row">
 
-            <div/>
-        <div/>
+            </div>
+        </div>
 </section>
 
 
 
-
-    <script>
-
-    
+<script>
+        
+        const input = document.getElementById('search');
+        input.addEventListener("keyup", search);
 
         function search() {
-            const input = document.getElementById('search')
-            let string = input.value;
+            var string = input.value;
+            getPizza(string);
         }
     
         function getPizza(string) {
-
-            axios.get('/api/pizzas', { 
-                params{
-                    search : string
+            axios.get("api/pizzas", {
+                params: {
+                    search: string
                 }
-            }).then(function (res) {
-            
-                const container = document.querySelector(".row");
-                res.data.forEach(pizza => {
-                    const card = document.createElement("div");
-                    card.className = "col-sm-12 col-md-6 col-lg-4 mb-4"
-                    card.innerHTML = 
-                    `<a href="/Pizza/Detail/${pizza.id}"> 
+            })
+                .then(function (response) {
+                    
+                    const container = document.querySelector(".row");
+                    container.innerHTML = "";
+                    response.data.forEach(pizza => { 
+                        const card = document.createElement("div");
+                        //<div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                        card.className = "col-sm-12 col-md-6 col-lg-4 mb-4"
+                        card.innerHTML = `<a href="/Pizza/Detail/${pizza.id}"> 
                         <div class="card" style="background-image: url(${pizza.image}); ">
                             <div class="d-flex flex-column justify-content-between">
                                 <div class="card-body">
@@ -121,26 +122,15 @@
                             </div>
                         </div>
                     </a>`;
-                    container.append(card);
-                })
-
-                console.log(res.data);
+                        container.append(card);
+                    })
+                console.log(response.data);
             })
         }
-        
-    
-
-
-
-        //function search(){
-        //    console.log(inputValue);
-        //    axios.get('/api/pizzas', {
-        //        params: {
-        //            search = value
-        //        }
-        //    }).then(res => {
             
-        //    })
-        //}
+        
+        
+     
+       
 
-    </script>
+</script>
