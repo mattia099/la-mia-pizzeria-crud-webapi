@@ -8,13 +8,18 @@ namespace la_mia_pizzeria_razor_layout.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string? search)
         {
-            using (PizzaContext context = new PizzaContext())
+            using(PizzaContext cxt = new PizzaContext())
             {
-                List<Pizza> pizzas = context.Pizza.ToList<Pizza>();
-                return Ok(pizzas);
+                IQueryable<Pizza> pizzas = cxt.Pizza;
+                if(search != null && search != "")
+                {
+                    pizzas = pizzas.Where(p => p.Name.Contains(search));
+                }
+                return Ok(pizzas.ToList());
             }
         }
     }

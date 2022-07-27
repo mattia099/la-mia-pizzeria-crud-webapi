@@ -74,7 +74,7 @@
 
   @*  </tbody>
 </table>*@
-
+<input id="searchBar" type="text" placeholder="Cerca la tua pizza" onkeyup="search()" />
 <section class="wrapper">
         <div class="container py-3">
             <div class="row">
@@ -82,33 +82,65 @@
             <div/>
         <div/>
 </section>
-<script>
 
 
-axios.get('/api/pizzas').then(res => {
-    console.log(res.data);
-    const container = document.querySelector(".row");
-    res.data.forEach(pizza => {
-        const card = document.createElement("div");
-        card.className = "col-sm-12 col-md-6 col-lg-4 mb-4"
-        card.innerHTML = 
-        `<a href="/pizze/details/${pizza.id}"> 
-            <div class="card" style="background-image: url(${pizza.image}); ">
-                <div class="d-flex flex-column justify-content-between">
-                    <div class="card-body">
-                        <h4 class="card-title">${pizza.name}</h4>
-                    </div>
-                    <div class="p-2">
-                        <a class="btn btn-primary" href="/Pizza/Detail/${pizza.id}">Visualizza</a>
-                        <a class="btn btn-success" href="/Pizza/Edit/${pizza.id}">Modifica</a>
-                    </div>
-                </div>
-            </div>
-        </a>`;
-        container.append(card);
-    })
-}).catch(err => {
-    console.log(err);
-})
 
-</script>
+
+    <script>
+
+    
+
+        function search() {
+            const input = document.getElementById('search')
+            let string = input.value;
+        }
+    
+        function getPizza(string) {
+
+            axios.get('/api/pizzas', { 
+                params{
+                    search : string
+                }
+            }).then(function (res) {
+            
+                const container = document.querySelector(".row");
+                res.data.forEach(pizza => {
+                    const card = document.createElement("div");
+                    card.className = "col-sm-12 col-md-6 col-lg-4 mb-4"
+                    card.innerHTML = 
+                    `<a href="/Pizza/Detail/${pizza.id}"> 
+                        <div class="card" style="background-image: url(${pizza.image}); ">
+                            <div class="d-flex flex-column justify-content-between">
+                                <div class="card-body">
+                                    <h4 class="card-title">${pizza.name}</h4>
+                                </div>
+                                <div class="p-2">
+                                    <a class="btn btn-primary" href="/Pizza/Detail/${pizza.id}">Visualizza</a>
+                                    <a class="btn btn-success" href="/Pizza/Edit/${pizza.id}">Modifica</a>
+                                </div>
+                            </div>
+                        </div>
+                    </a>`;
+                    container.append(card);
+                })
+
+                console.log(res.data);
+            })
+        }
+        
+    
+
+
+
+        //function search(){
+        //    console.log(inputValue);
+        //    axios.get('/api/pizzas', {
+        //        params: {
+        //            search = value
+        //        }
+        //    }).then(res => {
+            
+        //    })
+        //}
+
+    </script>
