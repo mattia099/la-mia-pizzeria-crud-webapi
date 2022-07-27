@@ -23,7 +23,7 @@
 }
 <h2>Aggiungi una nuova pizza:</h2>
 <a class="btn btn-primary" asp-controller="Pizza" asp-action="CreateForm">Aggiungi</a>
-<table class="table">
+@*<table class="table">
     <thead>
         <th>Name</th>
         <th>Description</th>
@@ -32,9 +32,9 @@
         <th></th>
         <th></th>
     </thead>
-    <tbody>
+    <tbody>*@
         
-        @foreach(Pizza pizza in Model)
+        @*@foreach(Pizza pizza in Model)
         {
             <tr>
                 <td>@pizza.Name</td>
@@ -65,22 +65,50 @@
                     </div>
                 </div>
             </tr>
-        }
+        }*@
 
        
 
                 
                                 
 
-    </tbody>
-</table>
+  @*  </tbody>
+</table>*@
 
+<section class="wrapper">
+        <div class="container py-3">
+            <div class="row">
+
+            <div/>
+        <div/>
+</section>
 <script>
+
+
 axios.get('/api/pizzas').then(res => {
-    var pizzaList = [];
-    pizzaList = res.data;
-    console.log(pizzaList);
+    console.log(res.data);
+    const container = document.querySelector(".row");
+    res.data.forEach(pizza => {
+        const card = document.createElement("div");
+        card.className = "col-sm-12 col-md-6 col-lg-4 mb-4"
+        card.innerHTML = 
+        `<a href="/pizze/details/${pizza.id}"> 
+            <div class="card" style="background-image: url(${pizza.image}); ">
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="card-body">
+                        <h4 class="card-title">${pizza.name}</h4>
+                    </div>
+                    <div class="p-2">
+                        <a class="btn btn-primary" href="/Pizza/Detail/${pizza.id}">Visualizza</a>
+                        <a class="btn btn-success" href="/Pizza/Edit/${pizza.id}">Modifica</a>
+                    </div>
+                </div>
+            </div>
+        </a>`;
+        container.append(card);
+    })
 }).catch(err => {
     console.log(err);
 })
+
 </script>
