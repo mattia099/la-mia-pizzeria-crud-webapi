@@ -20,6 +20,7 @@ namespace la_mia_pizzeria_razor_layout
         public DbSet<Pizza> Pizza { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

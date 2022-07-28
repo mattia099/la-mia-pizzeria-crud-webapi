@@ -6,13 +6,31 @@
 @model Pizza
 
 <div class="container">
-    <img src="@Model.Image" alt="...">
-    <h5>@Model.Name</h5>
-    <p>@Model.Description</p>
-    @if (Model.Category != null)
-    {
-        <p>@Model.Category.Name</p>
-    }
     
     
 </div>
+
+<script>
+const id = @Model.Id;
+
+loan(id);
+
+function loan(id) {
+    axios.get(`api/pizzas/${id}`).then( (res) => {
+    console.log(res);
+
+    const pizza = res.data;
+    document.querySelector('.container').innerHTML +=
+    `
+    <div class="col-12 col-md-4 p-2">
+        <div class="card">
+            <img src="${pizza.image}">
+            <h5>${pizza.name}</h5>
+            <p>${pizza.description}</p>
+        </div>
+    </div>
+    `
+});
+}
+
+</script>

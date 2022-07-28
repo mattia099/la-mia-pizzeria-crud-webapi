@@ -94,6 +94,8 @@
             var string = input.value;
             getPizza(string);
         }
+
+        getPizza("");
     
         function getPizza(string) {
             axios.get("api/pizzas", {
