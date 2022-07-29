@@ -1,4 +1,5 @@
 ﻿using la_mia_pizzeria_razor_layout.Models;
+using la_mia_pizzeria_razor_layout.Models.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,28 +11,30 @@ namespace la_mia_pizzeria_razor_layout.Controllers
     [Authorize]
     public class PizzaController : Controller
     {
+        private DbPizzaRepository pizzaRepository;
+        public PizzaController()
+        {
+            this.pizzaRepository = new DbPizzaRepository();
+        }
         public IActionResult Index()
         {
-            using (PizzaContext db = new PizzaContext())
-            {
-                List<Pizza> pizzas = db.Pizza.ToList();
-                return View(pizzas);
-            }
+            List<Pizza> pizzas = pizzaRepository.GetList();
+            return View(pizzas);
         }
+            
         public IActionResult Detail(int id)
         {
-            using(PizzaContext db = new PizzaContext())
+
+            Pizza pizzaFound = pizzaRepository.GetById(id);
+            if(pizzaFound == null)
             {
-                Pizza pizzaFound = db.Pizza.Where(pizza => pizza.Id == id).Include(pizza => pizza.Category).FirstOrDefault();
-                if(pizzaFound == null)
-                {
-                    return NotFound("Nessun prodotto con questo id");
-                }
-                else
-                {
-                return View("Detail",pizzaFound);
-                }
+                return NotFound("Nessun prodotto con questo id");
             }
+            else
+            {
+            return View("Detail",pizzaFound);
+            }
+            
         }
 
         [HttpGet]
